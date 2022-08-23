@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="color.css">
+    <meta charset="utf-8">
+    <title>入力した文字を先頭から一文字ずつ表示させる</title>
+</head>
+<body>
+    <p id="output_space"></p>
+    <input type="text" id="input_box" value="入力してください">
+    <button onclick="startTimer()">Start</button>
+    <!-- <h1 id="text">この文字が大きくなる</h1>
+    <div id="my_box">
+        <h3>hello world</h3>
+    </div>
+    <button id="start">start</button>
+    <button id="stop">stop</button> -->
+<button id="run">Run</button>
+<pre>previous    this    actual delay</pre>
+<div id="log"></div>
+    <script type="text/javascript">
+        /*
+        let msg = "三角形の面積"
+        function triangle(width,height)
+        {
+            const TOW_NUMBER = 2;
+            const resule = (width * height) /TOW_NUMBER;
+            console.log(`${msg}${resule}`);
+        }
+
+        triangle(10,2);
+        
+        const timer = setInterval(createCounter,1000);
+        let count = 0;
+        function createCounter()
+        {
+            console.log(`${count}秒経過`);
+            if(count >= 10)
+            {
+                clearInterval(timer);
+            }
+            count++;
+        }
+
+        let counter = 1;
+        function countUP()
+        {
+            console.log(`${counter}秒経過しました`);
+        }
+        const timer2 = setTimeout(countUP,1000);
+        let counter2 = 0;
+        function countUP2()
+        {
+            console.log(`${counter2}秒経過しました`);
+            counter2++;
+            let timer = setTimeout(countUP2,1000);
+            if(counter2 > 10)
+            {
+                clearInterval(timer);
+            }
+        }
+        countUP2();
+        
+        let nIntervId;
+        
+        function changeColor()
+        {
+            if(!nIntervId)
+            {
+                nIntervId = setInterval(flashText,1000)
+            }
+        }
+        
+        function flashText()
+        {
+            console.log("テスト");
+            const oElem = document.getElementById("my_box");
+            if(oElem.className === "go")
+            {
+                oElem.className = "stop";
+            }
+            else
+            {
+                oElem.className = "go"
+            }
+        }
+        
+        function stopTextColor()
+        {
+            clearInterval(nIntervId);
+            nIntervId = null;
+        }
+        document.getElementById("start").addEventListener("click",changeColor);
+        document.getElementById("stop").addEventListener("click",stopTextColor);
+        
+        var h1 = document.getElementById("text");
+        let count = 0;
+        var timer = setInterval(() => 
+        {
+            h1.style.fontSize = count + `px`;
+            count++
+            
+            if(count >= 100)clearInterval(timer);
+        }, 10);
+        */
+        let last = 0;
+        let iterations = 10;
+
+        function timeout()
+        {
+            logline(new Date().getMilliseconds());
+            if(iterations-- > 0)
+            {
+                setTimeout(timeout,0);
+            }
+        }
+
+        function run()
+        {
+            const log = document.querySelector("#log");
+            while(log.lastElementChild)
+            {
+                log.removeChild(log.lastElementChild);
+            }
+            iterations = 10;
+            last = new Date().getMilliseconds();
+    
+            setTimeout(timeout,0);
+        }
+
+        function pad(number)
+        {
+            return number.toString().padStart(3,"0");
+        }
+
+        function logline(now)
+        {
+            const newLine =document.createElement("pre");
+            newLine.textContent = `${pad(last)}    ${pad(now)}    ${now - last}`;
+            document.getElementById("log").appendChild(newLine);
+            last = now;
+        }
+
+        document.querySelector("#run").addEventListener("click",run);
+        
+        var n;
+        function word()
+        {
+            var s = document.getElementById("input_box").value;
+            var len = s.length;
+            document.getElementById("output_space").innerHTML = s.slice(0,n);
+            if(n < len)
+            {
+                n++;
+            }
+            else
+            {
+                clearInterval(intervalId);
+                s = null;
+            }
+        }
+
+        function startTimer()
+        {
+            n = 1;
+            intervalId = setInterval(word,2000);
+        }
+    </script>
+</body>
+</html>
